@@ -39,14 +39,11 @@ def add_extension(folder, extension):
     res, fold_ext = check_extension(extension)
     if not res:
         if folder in dicc:
-            if not extension in dicc[folder]:
-                dicc[folder].append(extension)
-                strn = genera_string(dicc)
-                with open(os.path.join(os.path.dirname(__file__), "data.csv"), "w") as f:
-                    f.write(strn)
-                    print("La extensión " + extension + " añadida a " + folder + " correctamente")
-            else:
-                print("La extensión " + extension + " ya existe en " + folder)
+            dicc[folder].append(extension)
+            strn = genera_string(dicc)
+            with open(os.path.join(os.path.dirname(__file__), "data.csv"), "w") as f:
+                f.write(strn)
+                print("La extensión " + extension + " añadida a " + folder + " correctamente")
         
         else:
             with open(os.path.join(os.path.dirname(__file__), "data.csv"), "a") as f:
@@ -56,9 +53,9 @@ def add_extension(folder, extension):
         print("La extensión " + extension + " ya existe en " + fold_ext)
 
 def delete_extension(extension):
-    dicc = lector()
     res, folder = check_extension(extension)
     if res:
+        dicc = lector()
         dicc[folder].remove(extension)
         if dicc[folder] == []:
             dicc.pop(folder)
