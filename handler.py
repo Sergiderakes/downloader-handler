@@ -2,7 +2,12 @@ import os
 import csv
 import functions
 
-dire = "D:\\Descargas"
+dire = "D:\\Descargas\\"
+
+dicc = functions.lector()
+
+dirs = [dire + k for k in dicc.keys()]
+print(dirs)
 
 # files = []
 
