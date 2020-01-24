@@ -34,7 +34,7 @@ def genera_string(dicc):
                 strn += ext + "\n"
     return strn
 
-def add_extension(folder, extension):
+def add_extension(extension, folder):
     dicc = lector()
     res, fold_ext = check_extension(extension)
     if not res:
@@ -63,5 +63,17 @@ def delete_extension(extension):
         with open(os.path.join(os.path.dirname(__file__), "data.csv"), "w") as f:
             f.write(strn)
             print("La extensión " + extension + " borrada de " + folder + " correctamente")
+    else:
+        print("La extensión " + extension + " no existe")
+    
+def move_extension(extension, folder):
+    res, folder2 = check_extension(extension)
+    if res:
+        if not folder == folder2:
+            delete_extension(extension)
+            add_extension(extension, folder)
+        else:
+            print("La extensión " + extension + " ya se encuentra en la carpeta " + folder)
+
     else:
         print("La extensión " + extension + " no existe")
