@@ -44,7 +44,7 @@ def test_delete_function_error():
 
 def test_move_extension():
     print("Mover extension: ")
-    print("Salida esperada: La extensión .txt añadida a textos\nLa extensión .txt borrada de textos correctamente\nLa extensión .txt añadida a texts correctamente")
+    print("Salida esperada: La extensión .txt añadida a textos correctamente\nLa extensión .txt borrada de textos correctamente\nLa extensión .txt añadida a texts correctamente")
     print("Salida obtenida: ", end = "")
     functions.add_extension(".txt", "textos")
     functions.move_extension(".txt", "texts")
