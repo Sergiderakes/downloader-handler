@@ -5,7 +5,7 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 import time
 
-dire = "D:\\Descargas"
+dire = "D:/Descargas"
 
 dicc = functions.lector()
 
@@ -15,13 +15,15 @@ class Handler(FileSystemEventHandler):
     def on_created(self, event):
         print("1")
         for file_n in os.listdir(dire):
-            path = dire + "\\" + file_n
+            path = dire + "/" + file_n
             
             for key, value in dicc:
                 for extension in value:
                     if extension in file_n:
-                        dest = dire + "\\" + key + "\\" + file_n
+                        dest = dire + "/" + key + "/" + file_n
                         os.rename(path, dest)
+        return super().on_created(event)(self, event)
+
 event_handler = Handler()
 observer = Observer()
 observer.schedule(event_handler, dire, recursive=True)
