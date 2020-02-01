@@ -35,6 +35,7 @@ class MyHandler(FileSystemEventHandler):
                         #     file_n = e
                         dest = fold + "/" + file_n
                         os.rename(path, dest)
+                        break
 
 event_handler = MyHandler()
 FileSystemEventHandler.__init__(event_handler)
