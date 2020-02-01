@@ -77,3 +77,12 @@ def move_extension(extension, folder):
 
     else:
         print("La extensión " + extension + " no existe")
+
+def create_folders(path):
+    dicc = lector()
+    folders_and_files = [f for f in os.listdir(path)]
+    files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+    folders = [f for f in folders_and_files if f not in files]
+    for folder in dicc:
+        if folder not in folders:
+            os.mkdir(path + "/" + folder)
