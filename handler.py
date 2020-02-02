@@ -9,6 +9,25 @@ dire = "D:/Descargas"
 
 files = []
 
+def check_name_in_folder(name, folder):
+    if name in os.listdir(folder):
+        splits = name.split(".")
+        temp = splits[-2]
+        splits2 = temp.split("_")
+        temp2 = splits2[-1]
+        try:
+            splits2[-1] = str(int(temp2) + 1)
+        except:
+            splits2[-1] = splits2[-1] + "_1"
+        
+        temp = "_".join(splits2)
+        splits[-2] = temp
+        name = ".".join(splits)
+        name = check_name_in_folder(name, folder)
+        return name
+    else:
+        return name
+
 class MyHandler(FileSystemEventHandler):
     def on_any_event(self, event):
         dicc = functions.lector()
@@ -20,19 +39,7 @@ class MyHandler(FileSystemEventHandler):
                 for extension in value:
                     if extension in file_n.lower():
                         fold = dire + "/" + key
-                        # if file_n in os.listdir(fold): #Trying to not have the same name
-                        #     temp = file_n.split(".")
-                        #     n_temp = temp[0].split("_")
-                        #     n = n_temp[1]
-
-                        #     try:
-                        #         m = int(n) + 1
-                        #         temp[0] = n_temp[0] + "_" + str(m) + "."
-                        #     except:
-                        #         temp[0] = temp[0] + "_1."
-
-                        #     e = "".join(temp)
-                        #     file_n = e
+                        file_n = check_name_in_folder(file_n, fold)
                         dest = fold + "/" + file_n
                         os.rename(path, dest)
                         break
@@ -40,7 +47,7 @@ class MyHandler(FileSystemEventHandler):
 event_handler = MyHandler()
 FileSystemEventHandler.__init__(event_handler)
 observer = Observer()
-observer.schedule(event_handler, path="D:/Descargas", recursive=True)
+observer.schedule(event_handler, dire, recursive=True)
 observer.start()
 
 try:
