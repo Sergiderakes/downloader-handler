@@ -18,7 +18,7 @@ class MyHandler(FileSystemEventHandler):
             
             for key, value in dicc.items():
                 for extension in value:
-                    if extension in file_n:
+                    if extension in file_n.lower():
                         fold = dire + "/" + key
                         # if file_n in os.listdir(fold): #Trying to not have the same name
                         #     temp = file_n.split(".")

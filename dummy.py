@@ -11,16 +11,10 @@ functions.add_extension(".7z", "comprimidos")
 functions.add_extension(".docx", "documentos")
 functions.add_extension(".pptx", "presentaciones")
 
-e = "hola__1.txy"
-temp = e.split(".")
-n_temp = temp[0].split("_")
-n = n_temp[1]
-
-try:
-    m = int(n) + 1
-    temp[0] = n_temp[0] + "_" + str(m) + "."
-except:
-    temp[0] = temp[0] + "_1."
-
-e = "".join(temp)
-print(e)
+functions.add_extension(".mp4", "videos")
+functions.add_extension(".jar", "java")
+functions.add_extension(".html", "html")
+functions.add_extension(".htm", "html")
+functions.add_extension(".gif", "imagenes")
+functions.add_extension(".iso", "imagenes_discos")
+functions.add_extension(".class", "java")
