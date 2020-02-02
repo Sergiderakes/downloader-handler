@@ -1,0 +1,13 @@
+GUI:           + (1)
+	+(2) folder1 | ext1 | ext2 ...
+	+(2) folder2 | ext3 | ext4 ...
+
+(1) - Add carpet (need a function)
+(2) - Add extension to that carpet
+Also: dragable extension
+
+The main screen of the gui should have an option to enable/disable execute the program
+every time the computer starts, if that is disable it should have a function to
+execute the program and handle the main folder (maybe creating a file and the deleting it)
+
+It can have an executable to install the program
