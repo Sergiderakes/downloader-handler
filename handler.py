@@ -7,8 +7,6 @@ import time
 
 dire = "D:/Descargas"
 
-files = []
-
 def check_name_in_folder(name, folder):
     if name in os.listdir(folder):
         splits = name.split(".")
@@ -32,12 +30,14 @@ class MyHandler(FileSystemEventHandler):
     def on_any_event(self, event):
         dicc = functions.lector()
         functions.create_folders(dire)
-        for file_n in os.listdir(dire):
+        files = [f for f in os.listdir(dire) if os.path.isfile(os.path.join(dire, f))]
+        for file_n in files:
             path = dire + "/" + file_n
             
             for key, value in dicc.items():
                 for extension in value:
-                    if extension in file_n.lower():
+                    temp = file_n.lower().split(".")
+                    if extension == "." + temp[-1]:
                         fold = dire + "/" + key
                         file_n = check_name_in_folder(file_n, fold)
                         dest = fold + "/" + file_n
