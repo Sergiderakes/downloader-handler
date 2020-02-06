@@ -13,10 +13,15 @@ import functions
 class table(QtWidgets.QTableWidget):
 
     def dropEvent(cls, self):
-        if self.hasText():
-            print("1")
-        else:
-            print("2")
+        l = []
+        for row in range(cls.rowCount()):
+            t = []
+            for col in range(cls.columnCount()):
+                # t[col] = cls.item(row, col).text()
+            tuple(t)
+            l.append(t)
+        print(l)
+
         return super().dropEvent(self)
 
 class Ui_MainWindow(object):
