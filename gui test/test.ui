@@ -6,25 +6,49 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>858</width>
-    <height>692</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>290</y>
-      <width>93</width>
-      <height>28</height>
+      <x>0</x>
+      <y>0</y>
+      <width>801</width>
+      <height>551</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Test</string>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="acceptDrops">
+     <bool>true</bool>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+    </property>
+    <property name="showDropIndicator" stdset="0">
+     <bool>false</bool>
+    </property>
+    <property name="dragEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="dragDropMode">
+     <enum>QAbstractItemView::DragDrop</enum>
+    </property>
+    <property name="defaultDropAction">
+     <enum>Qt::MoveAction</enum>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::SingleSelection</enum>
     </property>
    </widget>
   </widget>
@@ -33,7 +57,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>858</width>
+     <width>800</width>
      <height>26</height>
     </rect>
    </property>

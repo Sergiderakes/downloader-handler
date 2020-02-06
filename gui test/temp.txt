@@ -1,0 +1,26 @@
+import functions
+
+class table(QtWidgets.QTableWidget):
+    def dragLeaveEvent(self, e):
+        print(e)
+
+dicc = functions.lector()
+        list_dicc = functions.dicc_to_tuple_list(dicc)
+        row = 0
+        for tup in list_dicc:
+            col = 0
+            if self.tableWidget.rowCount() <= row + 1:
+                self.tableWidget.setRowCount(row + 2)
+            for item in tup:
+                if self.tableWidget.columnCount() <= col + 1:
+                    self.tableWidget.setColumnCount(col + 2)
+                col+=1
+            row+=1
+        row = 0
+        for tup in list_dicc:
+            col = 0
+            for item in tup:
+                cellinfo = QtWidgets.QTableWidgetItem(item)
+                self.tableWidget.setItem(row, col, cellinfo)
+                col+=1
+            row+=1
