@@ -12,19 +12,29 @@ import functions
 
 class table(QtWidgets.QTableWidget):
 
-    def dropEvent(cls, self):
-        l = []
+    def lista(cls):
+        l1 = []
         for row in range(cls.rowCount()):
             t = []
             for col in range(cls.columnCount()):
-                # t[col] = cls.item(row, col).text()
+                item = cls.item(row, col)
+                if item is not None:
+                    t.append(item.text())
             tuple(t)
-            l.append(t)
-        print(l)
+            l1.append(t)
+        return l1
 
-        return super().dropEvent(self)
+    def dropEvent(cls, e):
+        
+        print(cls.lista())
+
+        return super().dropEvent(e)
+
+    # @QtCore.pyqtSlot()
+    # def 
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
