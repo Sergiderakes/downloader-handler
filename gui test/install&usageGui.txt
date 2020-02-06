@@ -1,8 +1,12 @@
 -----installation------
 pip install PyQt5
 pip install PyQt5-tools
----------usage---------
+
 go to pythonDirectory\Lib\site-packages\pyqt5_tools\Qt\bin -> search for designer.exe and
 send to Desktop (shortcut)
 ------.ui to .py-------
 save file of designer.exe into file.ui -> cmd and type: pyuic5 -x file.ui -o name.py
+
+---------usage---------
+Credits to youtube channel Tech With Tim:
+https://www.youtube.com/playlist?list=PLzMcBGfZo4-lB8MZfHPLTEHO9zJDDLpYj
