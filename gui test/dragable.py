@@ -9,8 +9,9 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import random
+import functions
 
-def create_label(Form, name, pos, color):
+def create_label(Form, name, pos, color, text):
         _translate = QtCore.QCoreApplication.translate
         color = str(color[0]) + "," + str(color[1])+ "," + str(color[2])
         label = lbl(Form)
@@ -22,7 +23,7 @@ def create_label(Form, name, pos, color):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         label.setPalette(palette)
-        label.setText(_translate("Form", "Text Label"))
+        label.setText(_translate("Form", text))
         label.setStyleSheet("background: rgb(57,57,67);" + 
                                 "padding-left: 1px;" + 
                                 "border-left-width: 3px;" + 
@@ -34,18 +35,30 @@ def create_label(Form, name, pos, color):
         # self.label.setMidLineWidth(0)
         return label
 
-def generate_label_list(Form, base_name, pos, amount):
+def generate_label_list(Form, base_name, pos, a, b):
     color = [(55, 239, 186),(30, 185, 128),(0, 93, 87),(0, 125, 81)] # random.randint(0, 3)
     l = []
-    x, y = (0,0)
-    for i in range(amount):
-        label = create_label(Form, base_name + str(i), (pos[0] + x * 122, pos[1] + y * 62), color[i%4]) # 122 is 120 (width) + 2 (sep)
-        l.append(label)
-        if x == 5:
-            y += 1
-            y %= 6
-        x += 1
-        x %= 6
+    dicc = functions.lector()
+    lt = functions.dicc_to_tuple_list(dicc)
+    # for i in range(a * b):
+    #     print(y, x)
+    #     label = create_label(Form, base_name + str(i), (pos[0] + x * 122, pos[1] + y * 62), color[i%4], lt[y][x]) # 122 is 120 (width) + 2 (sep)
+    #     l.append(label)
+    #     if x == len(lt[y]) - 1:
+    #         y += 1
+    #         y %= b
+    #     x += 1
+    #     x %= len(lt[y])
+    y = 0
+    for t in lt:
+        x = 0
+        fol = "Folder: "
+        for text in t:
+            label = create_label(Form, base_name + str(x) + str(y), (pos[0] + x * 122, pos[1] + y * 62), color[x%4], fol + lt[y][x]) # 122 is 120 (width) + 2 (sep)
+            l.append(label)
+            fol = ""
+            x += 1
+        y += 1
     return l 
 
 def generate_coords(pos, label, width, height, sep):
@@ -132,8 +145,18 @@ class Ui_Form(object):
         Form.resize(863, 574)
         Form.setAcceptDrops(True)
         Form.setStyleSheet("background:rgb(44,44,54)")
-        self.label_list = generate_label_list(Form, "label", (50,50), 16)
-        points = generate_coords((50, 50), self.label_list[0], 4, 4, 2)
+        dicc = functions.lector()
+        b = len(dicc)
+        a = 0
+        for value in dicc.values():
+            if len(value) > a :
+                a = len(value)
+        
+        
+        self.label_list = generate_label_list(Form, "label", (50,50), a, b)
+
+
+        points = generate_coords((50, 50), self.label_list[0], a + 1, b, 2)
         for label in self.label_list:
             label.set_coords(points)
         
