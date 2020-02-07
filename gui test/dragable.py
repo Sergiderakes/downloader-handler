@@ -17,6 +17,11 @@ class lbl(QtWidgets.QLabel):
 
     def mousePressEvent(self, QMouseEvent):
         # self.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.setStyleSheet("background: rgb(40,40,40);" + 
+                                "padding-left: 1px;" + 
+                                "border-left-width: 1px;" + 
+                                "border-left-color: rgb(0, 255, 0);" + 
+                                "border-left-style: solid;")
         mp = QMouseEvent.pos()
         self.dist_x = mp.x()
         self.dist_y = mp.y()
@@ -34,6 +39,11 @@ class lbl(QtWidgets.QLabel):
     
     def mouseReleaseEvent(self, QMouseEvent):
         # self.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.setStyleSheet("background: rgb(30,30,30);" + 
+                                "padding-left: 1px;" + 
+                                "border-left-width: 1px;" + 
+                                "border-left-color: rgb(0, 255, 0);" + 
+                                "border-left-style: solid;")
         self.grabbing = False
         self.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         return super().mouseReleaseEvent(QMouseEvent)
@@ -61,7 +71,11 @@ class Ui_Form(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         self.label.setPalette(palette)
-        self.label.setStyleSheet("background: rgb(30,30,30);padding-left: 1px;border-left-width: 1px; border-left-color: white;border-left-style: solid;")
+        self.label.setStyleSheet("background: rgb(30,30,30);" + 
+                                "padding-left: 1px;" + 
+                                "border-left-width: 1px;" + 
+                                "border-left-color: rgb(0, 255, 0);" + 
+                                "border-left-style: solid;")
         # self.label.setFrameShape(QtWidgets.QFrame.StyledPanel) # QtWidgets.QFrame.Panel
         # # self.label.setFrameShadow(QtWidgets.QFrame.Raised)
         # self.label.setLineWidth(1)
