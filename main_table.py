@@ -1,23 +1,15 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'dragable_test.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.2
-#
-# WARNING! All changes made in this file will be lost!
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 import random
 import functions
 
-def create_label(Form, name, pos, color, text):
+def create_label(Form, name, pos, color, text, table):
         _translate = QtCore.QCoreApplication.translate
         color = str(color[0]) + "," + str(color[1])+ "," + str(color[2])
         label = lbl(Form)
         label.setGeometry(QtCore.QRect(pos[0], pos[1], 120, 60))
         label.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         label.setObjectName(name)
+        label.set_table(table)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -61,39 +53,40 @@ def generate_label_list(Form, base_name, pos, a, b):
         y += 1
     return l 
 
-def generate_coords(pos, w, h, width, height, sep):
-    x, y = pos[0], pos[1]
-    lx = []
-    ly = []
-    t = sep
-    for x1 in range(x, width * (w + t), w + t):
-        lx.append(x1)
-    for y1 in range(y, height * (h + t), h + t):
-        ly.append(y1)
-    l = []
-    for y in ly:
-        for x in lx:
-            t = (x, y)
-            l.append(t)
-    return l
-
 class table(QtWidgets.QWidget):
-
     label_list = []
 
-    def mousePressEvent(cls, self, QMouseEvent):
-        return super().mousePressEvent(self, QMouseEvent)
+    def generate_coords(self, pos, w, h, width, height, sep):
+        x, y = pos[0], pos[1]
+        lx = []
+        ly = []
+        t = sep
+        for x1 in range(x, width * (w + t), w + t):
+            lx.append(x1)
+        for y1 in range(y, height * (h + t), h + t):
+            ly.append(y1)
+        l = []
+        for y in ly:
+            for x in lx:
+                t = (x, y)
+                l.append(t)
+        return l
+
+    
 
 class lbl(QtWidgets.QLabel):
 
     dist_x = 0
     dist_y = 0
     grabbing = False
-    points = ()
+    table = None
+
+    def set_table(self, table):
+        self.table = table
 
     def mousePressEvent(self, QMouseEvent):
         # self.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.raise_()
+        self.raise_() # This put the label in front of the screen
         temp = self.styleSheet()
         splits = temp.split(";")
         splits[0] = "background: rgb(67,67,77)"
@@ -116,7 +109,6 @@ class lbl(QtWidgets.QLabel):
     
     def mouseReleaseEvent(self, QMouseEvent):
         if self.grabbing:
-            self.check_position()
             # self.setFrameShadow(QtWidgets.QFrame.Raised)
             temp = self.styleSheet()
             splits = temp.split(";")
@@ -126,15 +118,6 @@ class lbl(QtWidgets.QLabel):
             self.grabbing = False
             self.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         return super().mouseReleaseEvent(QMouseEvent)
-    
-    def check_position(self):
-        x, y = self.get_center()
-        for xt, yt in self.points:
-            if x <= xt + self.width() and x >= xt and y <= yt + self.height() and y >= yt:
-                self.move(xt, yt)
-
-    def set_coords(self, points):
-        self.points = points
 
     def get_center(self):
         p = self.pos()
@@ -142,7 +125,7 @@ class lbl(QtWidgets.QLabel):
         h = self.height()
         x, y = p.x(), p.y()
         center = (x + w / 2, y + h / 2)
-        return center    
+        return center 
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -159,20 +142,12 @@ class Ui_Form(object):
         
         
         self.label_list = generate_label_list(Form, "label", (50,50), a, b)
-
-
-        points = generate_coords((50, 50), self.label_list[0], a + 1, b, 2)
-        for label in self.label_list:
-            label.set_coords(points)
-        
-
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-
 
 if __name__ == "__main__":
     import sys
