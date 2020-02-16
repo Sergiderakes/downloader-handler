@@ -27,7 +27,7 @@ def create_label(Form, name, pos, color, text, table):
         # self.label.setMidLineWidth(0)
         return label
 
-def generate_label_list(Form, base_name, pos, a, b):
+def generate_label_list(Form, base_name, pos, table):
     color = [(55, 239, 186),(30, 185, 128),(0, 93, 87),(0, 125, 81)] # random.randint(0, 3)
     l = []
     dicc = functions.lector()
@@ -46,7 +46,8 @@ def generate_label_list(Form, base_name, pos, a, b):
         x = 0
         fol = "Folder: "
         for text in t:
-            label = create_label(Form, base_name + str(x) + str(y), (pos[0] + x * 122, pos[1] + y * 62), color[x%4], fol + lt[y][x]) # 122 is 120 (width) + 2 (sep)
+            label = create_label(Form, base_name + str(x) + str(y)
+                    , (pos[0] + x * 122, pos[1] + y * 62), color[x%4], fol + lt[y][x], table) # 122 is 120 (width) + 2 (sep)
             l.append(label)
             fol = ""
             x += 1
@@ -55,22 +56,51 @@ def generate_label_list(Form, base_name, pos, a, b):
 
 class table(QtWidgets.QWidget):
     label_list = []
+    coords = []
 
-    def generate_coords(self, pos, w, h, width, height, sep):
+    def generate_coords(self, pos, x_amount, y_amount, width, height, sep):
         x, y = pos[0], pos[1]
         lx = []
         ly = []
-        t = sep
-        for x1 in range(x, width * (w + t), w + t):
+        for x1 in range(x, x_amount * (width + sep), width + sep):
             lx.append(x1)
-        for y1 in range(y, height * (h + t), h + t):
+        for y1 in range(y, y_amount * (height + sep), height + sep):
             ly.append(y1)
         l = []
         for y in ly:
             for x in lx:
                 t = (x, y)
                 l.append(t)
-        return l
+        self.coords = l
+    
+    def add_label(self, x, y, label):
+        if self.label_list[y][x] == None:
+            self.label_list[y][x] = label
+            label.move(self.coords[y][x])
+    
+    def move_label(self, x, y, x1, y1, label):
+        if not x == x1 and y == y1:
+            temp_label = self.label_list[y][x]
+            self.label_list[y1][x1] = temp_label
+            self.label_list[y][x] = label
+            temp_label.move(self.coords[y][x])
+            label.move(self.coords[y][x])
+
+    def get_closest_tablepos(self, pos):
+        x, y = pos[0], pos[1]
+        if self.x <= x <= self.x + self.width and self.y <= y <= self.y + self.height:
+            rx, ry = x - self.coords[0][0], y - self.coords[0][1]
+            cx, cy = self.coords[0][0], self.coords[0][1]
+            for coord in self.coords:
+                rxt, ryt = x - coord[0], y - coord[1]
+                if rx < rxt and ry < ryt:
+                    rx, ry = rxt, ryt
+                    cx, cy = coord[0], coord[1]
+            
+    
+    def mousePressEvent(self, QMouseEvent):
+
+        return super().mousePressEvent(QMouseEvent)
 
     
 
@@ -127,21 +157,20 @@ class lbl(QtWidgets.QLabel):
         center = (x + w / 2, y + h / 2)
         return center 
 
+def generate_table(Form):
+    widget = table(Form)
+    widget.setGeometry(QtCore.QRect(140, 70, 461, 361))
+    widget.setObjectName("widget")
+    return widget
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(863, 574)
         Form.setAcceptDrops(True)
         Form.setStyleSheet("background:rgb(44,44,54)")
-        dicc = functions.lector()
-        b = len(dicc)
-        a = 0
-        for value in dicc.values():
-            if len(value) > a :
-                a = len(value)
         
-        
-        self.label_list = generate_label_list(Form, "label", (50,50), a, b)
+        self.label_list = generate_label_list(Form, "label", (50,50), None)
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
